@@ -241,6 +241,19 @@
         .detail li.user-answer {
             background: var(--wrong-bg);
         }
+
+        #btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 0 25px;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -249,6 +262,9 @@
     <div id="container">
         <h1>Quiz Wiedzy</h1>
         <button id="theme-toggle">Jasny motyw</button>
+        <div>
+            <a href="questions.html" id="btn">Wszystkie pytania</a>
+        </div>
 
         <div id="quiz"></div>
 
@@ -622,7 +638,7 @@
             correct: "\\( A^{-1} = \\begin{pmatrix} 0{,}1 \\end{pmatrix} \\)"
         },
         {
-            q: "Która macierz przedstawia układ równań: \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 8y = 5 \\end{cases}\\)?",
+            q: "Dla układu równań liniowych \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 8y = 5 \\end{cases}\\) macierz uzupełniona to:",
             answers: [
                 "\\(\\begin{pmatrix} -1 & 8 & 5 \\\\ 2 & -6 & -4 \\end{pmatrix}\\)",
                 "\\(\\begin{pmatrix} -1 & 8 \\\\ 2 & -6 \\end{pmatrix}\\)",
@@ -634,7 +650,7 @@
             correct: "\\(\\begin{pmatrix} 2 & -6 & -4 \\\\ -1 & 8 & 5 \\end{pmatrix}\\)"
         },
         {
-            q: "Główna macierz układu równań \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 8y = 5 \\end{cases}\\) to:",
+            q: "Dla układu równań liniowych \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 8y = 5 \\end{cases}\\) macierz uzupełniona to:",
             answers: [
                 "\\(\\begin{pmatrix} -1 & 8 & 5 \\\\ 2 & -6 & -4 \\end{pmatrix}\\)",
                 "\\(\\begin{pmatrix} -1 & 8 \\\\ 2 & -6 \\end{pmatrix}\\)",
@@ -668,12 +684,12 @@
         {
             q: "Czy układ równań \\(\\begin{cases} 2x - 6y = -4 \\\\ x + 3y = 5 \\end{cases}\\) jest układem Cramera?",
             answers: ["Prawda", "Fałsz"],
-            correct: "Fałsz"
+            correct: "Prawda"
         },
         {
             q: "Czy układ równań \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 3y = 5 \\end{cases}\\) jest układem Cramera?",
             answers: ["Prawda", "Fałsz"],
-            correct: "Prawda"
+            correct: "Fałsz"
         },
         {
             q: "Jeżeli \\( A \\) jest macierzą główną, a \\( U \\) macierzą uzupełnioną układu równań liniowych, to układ ten ma rozwiązania wtedy i tylko wtedy, gdy:",
@@ -1060,7 +1076,7 @@
                     answers: shuffle(q.answers.slice()),
                     correct: q.correct
                 }))
-            ).slice(0, 10);
+            ).slice(0, 20);
 
             idx = 0;
             userAns = [];
@@ -1175,4 +1191,3 @@
 </body>
 
 </html>
-```
