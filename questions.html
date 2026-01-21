@@ -7,8 +7,22 @@
     <title>Quiz Wiedzy</title>
 
     <!-- MathJax -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                // Tu włączamy obsługę pojedynczego dolara $ jako znacznika
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+        </script>
 
     <!-- Czcionka -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -205,762 +219,438 @@
 
     <script>
         const questions = [
-            { q: "Niech f : [a, b] → ℝ będzie funkcją ciągłą na [a, b]. Niech φ(x) będzie dowolnie ustaloną całką nieoznaczoną z funkcji f. Wówczas ∫ₐᵇ f(x) dx = φ(b) − φ(a).", answers: ["całkowanie przez części", "reguła łańcuchowa", "wzór na pochodną iloczynu", "twierdzenie Newtona – Leibniza"], correct: "twierdzenie Newtona – Leibniza" }, { q: "Czy każda funkcja ciągła posiada całkę nieoznaczoną?", answers: ["nie", "tak"], correct: "tak" }, { q: "Oblicz ∫₀¹ x⁹⁹ dx.", answers: ["0", "1", "0,01", "0,99"], correct: "0,01" }, { q: "Funkcja pierwotna dla f(x) = eˣ jest:", answers: ["eˣ", "eˣ − 1", "ln x", "eˣ + 1"], correct: "eˣ − 1" }, { q: "Całka oznaczona to inaczej:", answers: ["całka Newtona", "całka Leibniza", "całka Newtona – Leibniza", "całka Riemanna"], correct: "całka Riemanna" }, { q: "Interpretacja geometryczna całki oznaczonej z nieujemnej funkcji f jest:", answers: ["pole powierzchni powstałej z obrotu wykresu funkcji f względem osi OX", "pole figury ograniczonej wykresem funkcji f i osią OX", "długość wykresu funkcji f", "wartość średnia funkcji f w przedziale"], correct: "pole figury ograniczonej wykresem funkcji f i osią OX" }, { q: "∫ sin x dx =", answers: ["– sin x + C", "sin x + C", "cos x + C", "– cos x + C"], correct: "– cos x + C" }, { q: "Pojęcie całki oznaczonej zostało po raz pierwszy zdefiniowane pod koniec XVII wieku przez:", answers: ["niezależnie przez Isaaka Newtona i Gottfrieda Wilhelma Leibniza", "Isaaka Newtona", "Bernharda Riemanna", "Gottfrieda Wilhelma Leibniza"], correct: "niezależnie przez Isaaka Newtona i Gottfrieda Wilhelma Leibniza" }, { q: "Całka nieoznaczona z funkcji f : (a, b) → ℝ to:", answers: ["ciąg normalny podziałów odcinka (a, b)", "zbiór wszystkich funkcji pierwotnych dla f", "granica ciągu sum całkowych Riemanna", "dowolna funkcja pierwotna dla f"], correct: "zbiór wszystkich funkcji pierwotnych dla f" }, { q: "Załóżmy, że funkcje F, f : (a, b) → ℝ spełniają warunek F′(x) = f(x) dla wszystkich x ∈ (a, b). Wówczas:", answers: ["F(x) jest funkcją pierwotną dla f(x)", "F(x) jest funkcją odwrotną dla f(x)", "f(x) jest funkcją pierwotną dla F(x)", "F(x) jest funkcją pochodną dla f(x)"], correct: "F(x) jest funkcją pierwotną dla f(x)" }, { q: "Warunek konieczny istnienia ekstremum lokalnego funkcji f(x, y) to:", answers: ["f″ₓ = 0 lub f″ᵧ = 0", "f′ₓ = 0 i f′ᵧ = 0", "f′ₓ = 0", "f″ₓ = 0", "f′ₓ = f′ᵧ = 0"], correct: "f′ₓ = 0 i f′ᵧ = 0" }, { q: "Przy obliczaniu pochodnych cząstkowych funkcji f(x, y) stosuje się takie same reguły jak przy obliczaniu pochodnej jednej zmiennej, z tym że jeżeli obliczamy pochodną cząstkową względem y, to:", answers: ["obie zmienne x, y traktujemy jak stałe", "zmienną y traktujemy jak zmienną, a zmienną x jak stałą", "zmienną x traktujemy jak zmienną, a zmienną y jak stałą"], correct: "zmienną y traktujemy jak zmienną, a zmienną x jak stałą" }, { q: "Funkcja f(x, y) = x² + y² ma w punkcie A(0, 0):", answers: ["maksimum globalne", "punkt przegięcia", "maksimum lokalne", "minimum lokalne"], correct: "minimum lokalne" }, { q: "Jeżeli pochodne mieszane funkcji f(x, y) są ciągłe, to f″ₓᵧ = f″ᵧₓ. Powyższy tekst to:", answers: ["Twierdzenie Sylwestra", "Twierdzenie Newtona", "Twierdzenie Schwarza", "Twierdzenie Newtona–Leibniza"], correct: "Twierdzenie Schwarza" }, { q: "Pochodna cząstkowa funkcji f(x, y, z) = x⁷ y³ z⁻² względem zmiennej x wynosi:", answers: ["– 2 x⁷ y³ z⁻³", "7 x⁶ y³ z⁻²", "3 x⁷ y² z⁻²", "– 2 x⁷ y³ z⁻¹"], correct: "7 x⁶ y³ z⁻²" }, { q: "Pochodna cząstkowa funkcji f(x, y, z) = x⁷ y³ z⁻² względem zmiennej y wynosi:", answers: ["– 2 x⁷ y³ z⁻³", "7 x⁶ y³ z⁻²", "3 x⁷ y² z⁻²", "– 2 x⁷ y³ z⁻¹"], correct: "3 x⁷ y² z⁻²" }, { q: "Oblicz pochodną cząstkową funkcji f(x, y, z) = x⁷ y³ z⁻² względem zmiennej z:", answers: ["7 x⁶ y³ z⁻²", "3 x⁷ y² z⁻²", "– 2 x⁷ y³ z⁻³", "– 2 x⁷ y³ z⁻¹"], correct: "– 2 x⁷ y³ z⁻³" }, { q: "Warunek konieczny istnienia minimum lokalnego funkcji f w punkcie P₀:", answers: ["punkt przegięcia: istnieje otoczenie S punktu P₀ takie, że dla każdego P ∈ S zachodzi f(P) = f(P₀)", " minimum lokalne: istnieje otoczenie S punktu P₀ takie, że dla każdego P ∈ S zachodzi f(P) > f(P₀)", "maksimum globalne: istnieje otoczenie S punktu P₀ takie, że dla każdego P ∈ S zachodzi f(P) > f(P₀)", "maksimum lokalne: istnieje otoczenie S punktu P₀ takie, że dla każdego P ∈ S zachodzi f(P) < f(P₀)"], correct: " minimum lokalne: istnieje otoczenie S punktu P₀ takie, że dla każdego P ∈ S zachodzi f(P) > f(P₀)" }, { q: "Podaj wystarczający warunek istnienia ekstremum lokalnego funkcji f(x, y) w punkcie P, gdy fₓₓ(P) = 0, fᵧᵧ(P) = 0 oraz:", answers: ["fₓₓ(P) · fᵧᵧ(P) < 0", "fₓₓ(P) · fᵧᵧ(P) − [fₓᵧ(P)]² > 0", "fₓₓ(P) · fᵧᵧ(P) − [fₓᵧ(P)]² < 0", "fₓₓ(P) · fᵧᵧ(P) = 0"], correct: "fₓₓ(P) · fᵧᵧ(P) − [fₓᵧ(P)]² > 0" }, { q: "Punkt stacjonarny funkcji f(x, y) to punkt P, który spełnia warunek:", answers: ["f′ₓ(P) · f′ᵧ(P) < 0", "f′ₓ(P) = 0 lub f′ᵧ(P) = 0", "f′ₓ(P) > 0 i f′ᵧ(P) > 0", "f′ₓ(P) < 0 i f′ᵧ(P) < 0", "f′ₓ(P) = 0 i f′ᵧ(P) = 0"], correct: "f′ₓ(P) = 0 i f′ᵧ(P) = 0" }, { q: "Jeżeli f″(x) > 0 dla każdego x ∈ (a, b), to funkcja f(x) w przedziale (a, b) jest:", answers: ["rosnąca", "malejąca", "wypukła", "wklęsła"], correct: "wypukła" }, { q: "Funkcja f(x) = x¹⁰ + x² − 6x − 12, x ∈ ℝ, jest:", answers: ["rosnąca", "malejąca", "wklęsła", "wypukła"], correct: "wypukła" }, { q: "Jeżeli funkcja f jest różniczkowalna w punkcie x₀ i ma tam ekstremum lokalne, to:", answers: ["f(x₀) = 0", "f′(x₀) = 0", "f″(x₀) > 0", "f″(x₀) < 0"], correct: "f′(x₀) = 0" }, { q: "Druga pochodna funkcji f(x) = 4x³ wynosi:", answers: ["12x²", "24x", "60x⁴", "84x⁵"], correct: "24x" }, { q: "Jeżeli f′(x) < 0 dla każdego x ∈ (a, b), to funkcja f(x) w przedziale (a, b) jest:", answers: ["wklęsła", "malejąca", "rosnąca", "wypukła"], correct: "malejąca" }, { q: "Jeżeli f : [a, b] → ℝ jest ciągła na [a, b] i różniczkowalna na (a, b), to istnieje c ∈ (a, b) takie, że f′(c) = (f(b) − f(a))⁄(b − a).", answers: ["Twierdzenie Laplace’a", "Twierdzenie Lagrange’a", "Twierdzenie Newtona–Leibniza", "Twierdzenie Rolle’a"], correct: "Twierdzenie Lagrange’a" }, { q: "Jeżeli f : [a, b] → ℝ jest ciągła na [a, b], różniczkowalna na (a, b) i f(a) = f(b), to istnieje c ∈ (a, b) takie, że f′(c) = 0.", answers: ["Twierdzenie Rolle’a", "Twierdzenie Lagrange’a", "Twierdzenie Laplace’a", "Twierdzenie Newtona–Leibniza"], correct: "Twierdzenie Rolle’a" }, { q: "Funkcja f(x) = 100 − 10x − x⁵, x ∈ ℝ, jest:", answers: ["wypukła", "wklęsła", "malejąca", "rosnąca"], correct: "malejąca" }, { q: "Jeżeli f′(x₀) = 0, to funkcja f ma w punkcie x₀ ekstremum lokalne. Powyższe twierdzenie jest:", answers: ["fałszywe", "prawdziwe"], correct: "fałszywe" }, { q: "Funkcja f(x) = x³ w punkcie x₀ = 0:", answers: ["ma maksimum lokalne", "ma minimum lokalne", "nie ma ekstremum lokalnego"], correct: "nie ma ekstremum lokalnego" }, { q: "Oblicz \\( \\binom{8}{2} \\)", answers: ["28", "32", "4", "70"], correct: "28" }, {
-                q: "Powyższe równanie to: \\((a + b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^{n-k} b^k\\)",
-                answers: [
-                    "dwumian Pascala",
-                    "dwumian Gaussa",
-                    "dwumian Pitagorasa",
-                    "dwumian Newtona",
-                    "dwumian de Morgana"
-                ],
-                correct: "dwumian Newtona"
-            }, {
-                q: "Wybierz poprawny wzór na symbol Newtona (współczynnik dwumianowy) przy założeniu że \\(k, n \\in \\mathbb{N}_0\\), \\(k \\leq n\\):",
-                answers: [
-                    "\\(\\binom{n}{k} = \\frac{k!}{(n-k)!n!}\\)",
-                    "\\(\\binom{n}{k} = \\frac{n!}{k!}\\)",
-                    "\\(\\binom{n}{k} = \\frac{n!}{(k-n)!k!}\\)",
-                    "\\(\\binom{n}{k} = \\frac{n!}{(k-n)!n!}\\)",
-                    "\\(\\binom{n}{k} = \\frac{k!}{(k-n)!n!}\\)",
-                    "\\(\\binom{n}{k} = \\frac{n!}{k!(n-k)!}\\)"
-                ],
-                correct: "\\(\\binom{n}{k} = \\frac{n!}{k!(n-k)!}\\)"
-            },
-            {
-                q: "W trójkącie Pascala każdy wiersz zaczyna się i kończy liczba:",
-                answers: [
-                    "1",
-                    "2",
-                    "0",
-                    "4",
-                    "3",
-                    "5"
-                ],
-                correct: "1"
-            }, {
-                q: "W trójkącie Pascala suma dwóch kolejnych liczb w wierszu jest równa:",
-                answers: [
-                    "liczbie stojącej wiersz wyżej pomiędzy nimi",
-                    "sumie trzech liczb znajdujących się wiersz wyżej nad nimi",
-                    "sumie trzech liczb znajdujących się wiersz niżej pod nimi",
-                    "liczbie stojącej wiersz niżej pomiędzy nimi"
-                ],
-                correct: "liczbie stojącej wiersz niżej pomiędzy nimi"
-            },
-            {
-                q: "Silnia liczby 4 to:",
-                answers: [
-                    "4",
-                    "24",
-                    "16",
-                    "2"
-                ],
-                correct: "24"
-            },
-            {
-                q: "Ilość wszystkich permutacji zbioru \\(n\\)-elementowego wynosi:",
-                answers: [
-                    "\\(n!\\)",
-                    "\\(\\binom{2n}{n}\\)",
-                    "\\(n^2\\)",
-                    "\\(n\\)",
-                    "\\(2^n\\)"
-                ],
-                correct: "\\(n!\\)"
-            },
-            {
-                q: "Ilość wszystkich podzbiorów zbioru \\(B = \\{1, 2, 3, 4, 5\\}\\) wynosi:",
-                answers: ["64", "25", "36", "32"],
-                correct: "32"
-            },
-            {
-                q: "Symbol \\( \\sum_{n=-1}^{3} n^3 \\) to:",
-                answers: ["15", "36", "14", "35"],
-                correct: "36"
-            },
-            {
-                q: "Wartość współczynnika dwumianowego \\( \\binom{6}{0} \\) to:",
-                answers: [
-                    "5",
-                    "20",
-                    "12",
-                    "0",
-                    "1",
-                    "15",
-                    "6"
-                ],
-                correct: "1"
-            },
-            {
-                q: "Niech \\( A = \\{2\\} \\) i \\( B = \\{3\\} \\). Wówczas zbiór \\( A \\times B \\) to:",
-                answers: [
-                    "\\( \\{5\\} \\)",
-                    "\\( \\{6\\} \\)",
-                    "\\( \\{(2, 3)\\} \\)",
-                    "\\( \\{(3, 2)\\} \\)"
-                ],
-                correct: "\\( \\{(2, 3)\\} \\)"
-            },
-            {
-                q: "Iloczyn kartezjański zbiorów jest działaniem przemiennym.",
-                answers: [
-                    "Prawda",
-                    "Fałsz"
-                ],
-                correct: "Fałsz"
-            },
-            {
-                q: "Która litera oznacza zbiór liczb naturalnych?",
-                answers: ["Q", "R", "Z", "N"],
-                correct: "N"
-            }, {
-                q: "Interpretacją geometryczną zbioru \\( \\mathbb{R}^2 \\) jest:",
-                answers: [
-                    "przestrzeń",
-                    "kwadrat jednostkowy",
-                    "prosta",
-                    "płaszczyzna"
-                ],
-                correct: "płaszczyzna"
-            }, {
-                q: "Symbol oznaczający sumę zbiorów \\(A\\) i \\(B\\) to:",
-                answers: [
-                    "\\(A \\cap B\\)",
-                    "\\(A \\subset B\\)",
-                    "\\(A \\cup B\\)",
-                    "\\(A \\oplus B\\)"
-                ],
-                correct: "\\(A \\cup B\\)"
-            },
-            {
-                q: "Która z poniższych relacji nie zachodzi?",
-                answers: [
-                    "\\( \\mathbb{Q} \\subset \\mathbb{R} \\)",
-                    "\\( \\mathbb{R} \\subset \\mathbb{N} \\)",
-                    "\\( \\mathbb{N} \\subset \\mathbb{Q} \\)",
-                    "\\( \\mathbb{N} \\subset \\mathbb{Z} \\)"
-                ],
-                correct: "\\( \\mathbb{R} \\subset \\mathbb{N} \\)"
-            },
-            {
-                q: "Powyższa równość \\( (A \\cup B)' = A' \\cap B' \\) to:",
-                answers: [
-                    "prawo de Morgana",
-                    "prawo rozdzielności dopełnienia względem sumy zbiorów",
-                    "prawo podwójnego dopełnienia",
-                    "prawo łączności mnożenia zbiorów",
-                    "prawo łączności sumy zbiorów"
-                ],
-                correct: "prawo de Morgana"
-            },
-            {
-                q: "Niech \\( A = (-4, 5) \\), \\( B = [0, 9] \\). Wówczas zbiór \\( A \\setminus B \\) to:",
-                answers: [
-                    "\\([0, 5)\\)",
-                    "\\((-4, 0)\\)",
-                    "\\((-4, 9)\\)",
-                    "\\([5, 9]\\)"
-                ],
-                correct: "\\((-4, 0)\\)"
-            },
-            {
-                q: "Jeżeli zbiór \\(A\\) ma 4 elementy, a zbiór \\(B\\) ma 8 elementów, to ilość elementów zbioru \\(A \\times B\\) wynosi:",
-                answers: ["4", "15", "12", "32"],
-                correct: "32"
-            },
-            {
-                q: "Jeżeli \\( A = (-\\infty, 0] \\) i \\( B = [8, \\infty) \\), to \\( A \\cap B \\) to:",
-                answers: [
-                    "(-\\infty\\, \\infty\\)",
-                    "(0, 8)",
-                    "[0, 8]",
-                    "\\(\\varnothing\\)"
-                ],
-                correct: "\\(\\varnothing\\)"
-            },
-            {
-                q: "Wskaż zdanie prawdziwe:",
-                answers: [
-                    "dla każdej liczby rzeczywistej \\(x\\) zachodzi \\(x^2 \\geq 0\\)",
-                    "dla każdej liczby rzeczywistej \\(x\\) zachodzi \\(x^2 \\geq 10\\)",
-                    "istnieje liczba rzeczywista \\(x\\), taka że \\(x^2 \\leq 0\\)",
-                    "istnieje liczba rzeczywista \\(x\\), taka że \\(x^2 < 0\\)"
-                ],
-                correct: "dla każdej liczby rzeczywistej \\(x\\) zachodzi \\(x^2 \\geq 0\\)"
-            },
-            {
-                q: "Zaprzeczeniem zdania: istnieje liczba naturalna \\(n\\) taka, że \\(n^2 > 10\\), jest:",
-                answers: [
-                    "dla każdej liczby naturalnej \\(n\\) zachodzi \\(n^2 > 10\\)",
-                    "dla każdej liczby naturalnej \\(n\\) zachodzi \\(n^2 \\leq 10\\)",
-                    "istnieje liczba naturalna \\(n\\), taka że \\(n^2 < 10\\)",
-                    "istnieje liczba naturalna \\(n\\), taka że \\(n^2 \\geq 10\\)"
-                ],
-                correct: "dla każdej liczby naturalnej \\(n\\) zachodzi \\(n^2 \\leq 10\\)"
-            },
-            {
-                q: "Alternatywna zdania \\(p\\) oraz \\(q\\) to:",
-                answers: [
-                    "jeżeli \\(p\\), to \\(q\\)",
-                    "p i q",
-                    "p lub q",
-                    "p wtedy i tylko wtedy, gdy q"
-                ],
-                correct: "p lub q"
-            },
-            {
-                q: "Wskaż tautologię:",
-                answers: [
-                    "\\( p \\lor \\sim p \\)",
-                    "\\( p \\rightarrow \\sim p \\)",
-                    "\\( p \\land \\sim p \\)",
-                    "\\( p \\leftrightarrow \\sim p \\)"
-                ],
-                correct: "\\( p \\lor \\sim p \\)"
-            },
-            {
-                q: "Zdanie \\( p \\land q \\) jest prawdziwe tylko w przypadku, gdy:",
-                answers: [
-                    "obydwa zdania \\( p \\) oraz \\( q \\) są fałszywe",
-                    "zdanie \\( p \\) jest prawdziwe, a zdanie \\( q \\) jest fałszywe",
-                    "obydwa zdania \\( p \\) oraz \\( q \\) są prawdziwe",
-                    "zdanie \\( p \\) jest fałszywe, a zdanie \\( q \\) jest prawdziwe"
-                ],
-                correct: "obydwa zdania \\( p \\) oraz \\( q \\) są prawdziwe"
-            },
-            {
-                q: "Wskaż zdanie, które nie jest zdaniem logicznym:",
-                answers: [
-                    "Iloczyn liczb 4 i 8 wynosi 32",
-                    "Liczba 21 dzieli się przez 5",
-                    "Czy liczba 9 jest dzielnikiem liczby 18?",
-                    "Suma liczb 7 i 13 wynosi 20"
-                ],
-                correct: "Czy liczba 9 jest dzielnikiem liczby 18?"
-            },
-            {
-                q: "Zdanie \\( p \\Rightarrow q \\) jest fałszywe tylko w przypadku, gdy:",
-                answers: [
-                    "obydwa zdania \\( p \\) i \\( q \\) są fałszywe",
-                    "zdanie \\( p \\) jest fałszywe i zdanie \\( q \\) jest prawdziwe",
-                    "obydwa zdania \\( p \\) i \\( q \\) są prawdziwe",
-                    "zdanie \\( p \\) jest prawdziwe i zdanie \\( q \\) jest fałszywe"
-                ],
-                correct: "zdanie \\( p \\) jest prawdziwe i zdanie \\( q \\) jest fałszywe"
-            },
-            {
-                q: "Zdanie: istnieje liczba rzeczywista \\( x \\) taka, że dla każdej liczby rzeczywistej \\( y \\) zachodzi równość \\( xy = 0 \\)",
-                answers: [
-                    "jest prawdziwe",
-                    "jest fałszywe"
-                ],
-                correct: "jest prawdziwe"
-            },
             {
-                q: "Wyrażenie logiczne \\([\\sim (p \\lor q)] \\Leftrightarrow [\\sim p \\land \\sim q]\\) to:",
-                answers: [
-                    "prawo de Morgana",
-                    "prawo kontrapozycji",
-                    "prawo przemienności alternatywy",
-                    "prawo przemienności koniunkcji"
+                "q": "Firmy przeprowadzające badania sondażowe do wyznaczania wielkości próby N korzystają z:",
+                "answers": [
+                    "wzoru na prawdopodobieństwo całkowite",
+                    "Centralnego Twierdzenia Granicznego",
+                    "wzoru na prawdopodobieństwo warunkowe",
+                    "Prawa Wielkich Liczb"
                 ],
-                correct: "prawo de Morgana"
+                "correct": "Centralnego Twierdzenia Granicznego"
             },
             {
-                q: "W logice matematycznej liczba \\(0\\) określa:",
-                answers: [
-                    "fałsz",
-                    "prawdę"
+                "q": "Niech $X$ oznacza ilość orłów uzyskanych w pięciu rzutach monetą, a $Y$ oznacza ilość reszek uzyskanych w tym samym eksperymencie. Współczynnik korelacji zmiennych losowych $X$ i $Y$ wynosi: <br> Wskazówka: warto zauważyć, że $X + Y = 5$",
+                "answers": [
+                    "$-1$",
+                    "$-5$",
+                    "$5$",
+                    "$0$",
+                    "$1$"
                 ],
-                correct: "fałsz"
-            },
-            {
-                q: "Rząd macierzy \\( A = \\begin{pmatrix} 8 & 4 \\\\ 2 & 1 \\end{pmatrix} \\) wynosi:",
-                answers: ["0", "1", "3", "2"],
-                correct: "2"
+                "correct": "$-1$"
             },
             {
-                q: "Która z poniższych macierzy NIE jest macierzą diagonalną?",
-                answers: [
-                    "\\(\\begin{pmatrix} 4 & 0 \\\\ 0 & 5 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 0 & 0 \\\\ 0 & 5 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 0 & 4 \\\\ 5 & 0 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 4 & 0 \\\\ 0 & 0 \\end{pmatrix}\\)"
+                "q": "Jeżeli zmienne losowe $X$ i $Y$ są niezależne, $X$ ma rozkład normalny $N(1, 3)$, $Y$ ma rozkład normalny $N(3, 4)$ oraz $S = X + Y$, to zmienna losowa $S$ ma rozkład:",
+                "answers": [
+                    "$N(4, 7)$",
+                    "$N(2, 5)$",
+                    "$N(1, 5)$",
+                    "$N(4, 5)$",
+                    "$N(2, 7)$",
+                    "$N(10, 7)$",
+                    "$N(7, 5)$"
                 ],
-                correct: "\\(\\begin{pmatrix} 0 & 4 \\\\ 5 & 0 \\end{pmatrix}\\)"
-            },
-            {
-                q: "Wyznacz wyznacznik macierzy \\( A = \\begin{pmatrix} 8 & 0 & 4 \\\\ 9 & 0 & 7 \\\\ 3 & 0 & 5 \\end{pmatrix} \\):",
-                answers: ["−24", "0", "412", "100"],
-                correct: "0"
+                "correct": "$N(4, 5)$"
             },
             {
-                q: "Która z poniższych macierzy jest macierzą jednostkową?",
-                answers: [
-                    "\\(\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 1 & 0 \\\\ 1 & 0 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}\\)"
+                "q": "Jeżeli $X_1, X_2, X_3, X_4$ to niezależne zmienne losowe o tym samym rozkładzie normalnym $N(1, 2)$ oraz $T = \\frac{X_1+X_2+X_3+X_4}{4}$, to zmienna losowa $T$ ma rozkład:",
+                "answers": [
+                    "$N(2, 2)$",
+                    "$N(1, 1)$",
+                    "$N(4, 8)$",
+                    "$N(2, 1)$",
+                    "$N(1, 2)$",
+                    "$N(4, 4)$"
                 ],
-                correct: "\\(\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}\\)"
+                "correct": "$N(1, 1)$"
             },
             {
-                q: "Macierz kwadratowa \\( A \\) jest macierzą osobliwą wtedy i tylko wtedy, gdy:",
-                answers: [
-                    "\\( \\text{det} \\, A = 0 \\)",
-                    "\\( A = A^{-1} \\)",
-                    "\\( \\text{det} \\, A \\neq 0 \\)",
-                    "\\( A = A^T \\)"
+                "q": "Jeżeli $\\rho(X, Y) = -1$, to zmienne losowe $X$ i $Y$ są:",
+                "answers": [
+                    "dodatnio skorelowane",
+                    "niezależne",
+                    "liniowo skorelowane",
+                    "nieskorelowane"
                 ],
-                correct: "\\( \\text{det} \\, A = 0 \\)"
+                "correct": "liniowo skorelowane"
             },
             {
-                q: "Wyznacznik macierzy \\( A = \\begin{vmatrix} 2 & -3 \\\\ 4 & 5 \\end{vmatrix} \\) wynosi:",
-                answers: [
-                    "\\( -2 \\)",
-                    "\\( 2 \\)",
-                    "\\( -22 \\)",
-                    "\\( 22 \\)"
+                "q": "Współczynnik korelacji $\\rho(x, y)$ jest zdefiniowany wzorem:",
+                "answers": [
+                    "$\\frac{E(XY)}{Var X Var Y}$",
+                    "$\\frac{Cov(X,Y)}{Var X Var Y}$",
+                    "$\\frac{E(XY)}{\\sigma_X \\sigma_Y}$",
+                    "$\\frac{Cov(X,Y)}{\\sigma_X \\sigma_Y}$"
                 ],
-                correct: "\\( 22 \\)"
+                "correct": "$\\frac{Cov(X,Y)}{\\sigma_X \\sigma_Y}$"
             },
             {
-                q: "Która z poniższych własności NIE przysługuje działaniom na macierzach?",
-                answers: [
-                    "\\(A \\cdot I = A\\)",
-                    "\\(A + B = B + A\\)",
-                    "\\(A \\cdot B = B \\cdot A\\)",
-                    "\\(A \\cdot (B + C) = A \\cdot B + A \\cdot C\\)"
+                "q": "Jeżeli $EX^2 < \\infty$ i $EY^2 < \\infty$, to $|E(XY)| \\le \\sqrt{EX^2 EY^2}$. <br> Powyższa nierówność znana jest jako nierówność:",
+                "answers": [
+                    "Kołmogorowa",
+                    "Schwarza",
+                    "Czebyszewa",
+                    "Bernoulliego",
+                    "de Moivre'a - Laplace'a"
                 ],
-                correct: "\\(A \\cdot B = B \\cdot A\\)"
+                "correct": "Schwarza"
             },
             {
-                q: "Dane są macierze \\( A = \\begin{pmatrix} 4 & 0 \\\\ 7 & -1 \\end{pmatrix} \\) oraz \\( B = \\begin{pmatrix} -6 & 1 \\end{pmatrix} \\). Którego z poniższych działań nie można wykonać?",
-                answers: [
-                    "\\(A - B\\)",
-                    "\\(A \\cdot B^T\\)",
-                    "\\(A \\cdot B\\)",
-                    "\\(B \\cdot B^T\\)"
+                "q": "Jeżeli $X_1, X_2, X_3, X_4$ to niezależne zmienne losowe o tym samym rozkładzie normalnym $N(1, 2)$ oraz $S = X_1 + X_2 + X_3 + X_4$, to zmienna losowa $S$ ma rozkład:",
+                "answers": [
+                    "$N(4, 8)$",
+                    "$N(1, 2)$",
+                    "$N(4, 4)$",
+                    "$N(1, 4)$",
+                    "$N(2, 2)$"
                 ],
-                correct: "\\(A - B\\)"
+                "correct": "$N(4, 4)$"
             },
             {
-                q: "Jeżeli \\( A = \\begin{pmatrix} 2 & 5 \\end{pmatrix} \\) i \\( B = \\begin{pmatrix} 5 & 2 \\end{pmatrix} \\), to \\( A \\cdot B^T \\) wynosi:",
-                answers: [
-                    "\\( 20 \\)",
-                    "\\( \\begin{pmatrix} 2 & 5 \\end{pmatrix} \\)",
-                    "\\( \\begin{pmatrix} 2 & 5 \\\\ 5 & 2 \\end{pmatrix} \\)",
-                    "\\( \\begin{pmatrix} 5 & 2 \\end{pmatrix} \\)"
+                "q": "Niech $X_1, X_2, X_3, \\dots$ będzie ciągiem niezależnych zmiennych losowych o jednakowym rozkładzie z wartością oczekiwaną $E(X_k)=\\mu$ oraz odchyleniem standardowym $\\sigma(X_k)=\\sigma, k=1, 2, 3, \\dots$. Wtedy: <br> $\\lim_{n\\to\\infty} P(a < \\frac{S_n - n\\mu}{\\sigma\\sqrt{n}} < b) = \\Phi(b) - \\Phi(a)$, gdzie $S_n = X_1 + X_2 + \\dots + X_n$ oraz $\\Phi$ oznacza dystrybuantę rozkładu normalnego standardowego $N(0, 1)$. <br> Powyższe twierdzenie to:",
+                "answers": [
+                    "twierdzenie Bernoulliego",
+                    "Centralne Twierdzenie Graniczne Lindeberga - Levy'ego",
+                    "twierdzenie Newtona-Leibniza",
+                    "Mocne Prawo Wielkich Liczb Kołmogorowa",
+                    "Centralne Twierdzenie Graniczne de Moivre'a - Laplace'a",
+                    "Słabe Prawo Wielkich Liczb Bernoulliego",
+                    "Mocne Prawo Wielkich Liczb Bernoulliego"
                 ],
-                correct: "\\( 20 \\)"
+                "correct": "Centralne Twierdzenie Graniczne Lindeberga - Levy'ego"
             },
             {
-                q: "Macierz odwrotna do macierzy \\( A = \\begin{pmatrix} 10 \\end{pmatrix} \\) to:",
-                answers: [
-                    "\\( A^{-1} = \\begin{pmatrix} -0{,}1 \\end{pmatrix} \\)",
-                    "\\( A^{-1} = \\begin{pmatrix} 10 \\end{pmatrix} \\)",
-                    "\\( A^{-1} = \\begin{pmatrix} -10 \\end{pmatrix} \\)",
-                    "\\( A^{-1} = \\begin{pmatrix} 0{,}1 \\end{pmatrix} \\)"
+                "q": "Jeżeli $Cov(X, Y) = 0$, to zmienne losowe $X$ i $Y$ są:",
+                "answers": [
+                    "niezależne",
+                    "liniowo skorelowane",
+                    "nieskorelowane"
                 ],
-                correct: "\\( A^{-1} = \\begin{pmatrix} 0{,}1 \\end{pmatrix} \\)"
+                "correct": "nieskorelowane"
             },
             {
-                q: "Dla układu równań liniowych \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 8y = 5 \\end{cases}\\) macierz uzupełniona to:",
-                answers: [
-                    "\\(\\begin{pmatrix} -1 & 8 & 5 \\\\ 2 & -6 & -4 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} -1 & 8 \\\\ 2 & -6 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & 6 & 4 \\\\ 1 & 8 & 5 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & -6 \\\\ -1 & 8 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & 6 \\\\ 1 & 8 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & -6 & -4 \\\\ -1 & 8 & 5 \\end{pmatrix}\\)"
+                "q": "Jeżeli $F(x)$ jest dystrybuantą zmiennej losowej $X$, to:",
+                "answers": [
+                    "$F(x)$ jest funkcją ciągłą",
+                    "$F(x)$ jest funkcją całkowalną",
+                    "$F(x)$ jest funkcją różniczkowalną",
+                    "$F(x)$ jest funkcją słabo rosnącą"
                 ],
-                correct: "\\(\\begin{pmatrix} 2 & -6 & -4 \\\\ -1 & 8 & 5 \\end{pmatrix}\\)"
+                "correct": "$F(x)$ jest funkcją słabo rosnącą"
             },
             {
-                q: "Dla układu równań liniowych \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 8y = 5 \\end{cases}\\) macierz uzupełniona to:",
-                answers: [
-                    "\\(\\begin{pmatrix} -1 & 8 & 5 \\\\ 2 & -6 & -4 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} -1 & 8 \\\\ 2 & -6 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & 6 & 4 \\\\ 1 & 8 & 5 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & -6 \\\\ -1 & 8 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & 6 \\\\ 1 & 8 \\end{pmatrix}\\)",
-                    "\\(\\begin{pmatrix} 2 & -6 & -4 \\\\ -1 & 8 & 5 \\end{pmatrix}\\)"
+                "q": "Jeżeli $P(X=0) = P(X=1) = 0,5$, to:",
+                "answers": [
+                    "$Var X = 0$",
+                    "$Var X = -0,25$",
+                    "$Var X = 0,5$",
+                    "$Var X = 0,25$",
+                    "$Var X = -0,5$"
                 ],
-                correct: "\\(\\begin{pmatrix} 2 & -6 & -4 \\\\ -1 & 8 & 5 \\end{pmatrix}\\)"
+                "correct": "$Var X = 0,25$"
             },
             {
-                q: "Ilość wszystkich rozwiązań układu równań liniowych nie może wynosić:",
-                answers: [
-                    "1",
-                    "0",
-                    "2",
-                    "∞"
+                "q": "Jeżeli $P(X=0) = P(X=-1) = 0,5$, to:",
+                "answers": [
+                    "$EX = 0$",
+                    "$EX = -1$",
+                    "$EX = 0,5$",
+                    "$EX = -0,5$"
                 ],
-                correct: "2"
+                "correct": "$EX = -0,5$"
             },
             {
-                q: "Która z poniższych operacji na wierszach macierzy nie jest operacją elementarną:",
-                answers: [
-                    "dodanie do wiersza innego wiersza",
-                    "pomnożenie wiersza przez liczbę różną od zera",
-                    "przestawienie dwóch wierszy",
-                    "dodanie do wiersza liczby różnej od zera"
+                "q": "Jeżeli $P(X=0) = P(X=-1) = 0,5$, to:",
+                "answers": [
+                    "$EX^2 = 1$",
+                    "$EX^2 = 0$",
+                    "$EX^2 = 0,5$",
+                    "$EX^2 = -0,5$",
+                    "$EX^2 = -1$"
                 ],
-                correct: "dodanie do wiersza liczby różnej od zera"
-            },
-            {
-                q: "Czy układ równań \\(\\begin{cases} 2x - 6y = -4 \\\\ x + 3y = 5 \\end{cases}\\) jest układem Cramera?",
-                answers: ["Prawda", "Fałsz"],
-                correct: "Prawda"
-            },
-            {
-                q: "Czy układ równań \\(\\begin{cases} 2x - 6y = -4 \\\\ -x + 3y = 5 \\end{cases}\\) jest układem Cramera?",
-                answers: ["Prawda", "Fałsz"],
-                correct: "Fałsz"
+                "correct": "$EX^2 = 0,5$"
             },
             {
-                q: "Jeżeli \\( A \\) jest macierzą główną, a \\( U \\) macierzą uzupełnioną układu równań liniowych, to układ ten ma rozwiązania wtedy i tylko wtedy, gdy:",
-                answers: [
-                    "rz(A) < rz(U)",
-                    "rz(A) = rz(U)",
-                    "rz(A) > rz(U)"
+                "q": "Niech $x > 0$ oraz $\\Phi(x)$ to wartość dystrybuanty rozkładu normalnego standardowego. Wówczas:",
+                "answers": [
+                    "$\\Phi(-x) = 1 - \\Phi(x)$",
+                    "$\\Phi(-x) = -\\Phi(x)$",
+                    "$\\Phi(-x) = \\Phi(x)$",
+                    "$\\Phi(-x) = 1 + \\Phi(x)$"
                 ],
-                correct: "rz(A) = rz(U)"
+                "correct": "$\\Phi(-x) = 1 - \\Phi(x)$"
             },
             {
-                q: "Ilość wszystkich rozwiązań układu równań Cramera wynosi:",
-                answers: [
-                    "co najmniej 3",
-                    "∞",
-                    "1",
-                    "3",
-                    "2",
-                    "0"
+                "q": "Rozkład ciągłej zmiennej losowej $X$ jest wyznaczony jednoznacznie przez:",
+                "answers": [
+                    "wariancję $Var X$",
+                    "gęstość $f_X$",
+                    "odchylenie standardowe $\\sigma_X$",
+                    "wartość oczekiwaną $EX$"
                 ],
-                correct: "1"
+                "correct": "gęstość $f_X$"
             },
             {
-                q: "Jeżeli \\( U \\) jest macierzą uzupełnioną układu równań liniowych, to układ ten jest:",
-                answers: [
-                    "Gaussa",
-                    "oznaczony",
-                    "nieoznaczony",
-                    "sprzeczny",
-                    "Cramera"
+                "q": "Załóżmy, że $X$ jest zmienną losową o skończonej wariancji. Wskaż prawdziwą nierówność:",
+                "answers": [
+                    "$Var X \\ge EX^2$",
+                    "$Var X \\ge EX$",
+                    "$Var X \\ge 0$",
+                    "$EX \\ge 0$"
                 ],
-                correct: "oznaczony"
+                "correct": "$Var X \\ge 0$"
             },
             {
-                q: "Układ równań liniowych jest układem Cramera wtedy i tylko wtedy, gdy",
-                answers: [
-                    "macierz główna układu jest kwadratowa nieosobliwa",
-                    "macierz uzupełniona układu jest kwadratowa nieosobliwa",
-                    "macierz uzupełniona układu jest kwadratowa osobliwa",
-                    "macierz główna układu jest kwadratowa osobliwa"
+                "q": "Funkcja gęstości rozkładu normalnego standardowego $N(0,1)$ zadana jest wzorem:",
+                "answers": [
+                    "$f(x) = \\frac{1}{\\sqrt{2\\pi}}e^{-0,5x^2}$",
+                    "$f(x) = \\frac{1}{\\sqrt{2\\pi}}e^{0,5x^2}$",
+                    "$f(x) = \\frac{1}{2\\pi}e^{-0,5x^2}$",
+                    "$f(x) = \\frac{1}{2\\pi}e^{0,5x^2}$"
                 ],
-                correct: "macierz główna układu jest kwadratowa nieosobliwa"
-            }, {
-                q: "Funkcja \\( f : D \\to \\mathbb{R} \\) ma w punkcie \\( x_0 \\in D \\) granicę \\( g \\), jeżeli:",
-                answers: [
-                    "dla każdego ciągu \\( (x_n)_{n \\in \\mathbb{N}} \\) argumentów funkcji \\( f \\) różnych od \\( x_0 \\) ciąg \\( (f(x_n))_{n \\in \\mathbb{N}} \\) jest zbieżny do liczby \\( g \\)",
-                    "istnieje ciąg \\( (x_n)_{n \\in \\mathbb{N}} \\) argumentów funkcji \\( f \\) różnych od \\( x_0 \\) taki, że ciąg \\( (f(x_n))_{n \\in \\mathbb{N}} \\) jest zbieżny do liczby \\( g \\)",
-                    "dla każdego ciągu \\( (x_n)_{n \\in \\mathbb{N}} \\) argumentów funkcji \\( f \\) różnych od \\( x_0 \\) zachodzi warunek \\( f(x_n) = g \\) dla wszystkich \\( n \\in \\mathbb{N} \\)",
-                    "istnieje ciąg \\( (x_n)_{n \\in \\mathbb{N}} \\) argumentów funkcji \\( f \\) różnych od \\( x_0 \\) taki, że zachodzi warunek \\( f(x_n) = g \\) dla wszystkich \\( n \\in \\mathbb{N} \\)"
-                ],
-                correct: "dla każdego ciągu \\( (x_n)_{n \\in \\mathbb{N}} \\) argumentów funkcji \\( f \\) różnych od \\( x_0 \\) ciąg \\( (f(x_n))_{n \\in \\mathbb{N}} \\) jest zbieżny do liczby \\( g \\)"
+                "correct": "$f(x) = \\frac{1}{\\sqrt{2\\pi}}e^{-0,5x^2}$"
             },
             {
-                q: "Własność funkcji ciągłej: jeżeli \\( f \\) jest ciągła na \\([a, b]\\), \\( f(a) \\neq f(b) \\), a \\( c \\) leży pomiędzy \\( f(a) \\) i \\( f(b) \\), to istnieje \\( \\xi \\in (a, b) \\) takie, że \\( f(\\xi) = c \\), to:",
-                answers: [
-                    "własność Lebesgue'a funkcji ciągłej",
-                    "własność Darboux funkcji ciągłej",
-                    "własność Riemanna funkcji ciągłej",
-                    "własność Weierstrassa funkcji ciągłej",
-                    "własność Laplace'a funkcji ciągłej"
+                "q": "Dystrybuanta rozkładu wykładniczego $Exp(\\lambda)$ zadana jest wzorem:",
+                "answers": [
+                    "$F(x) = e^{-\\lambda x}$",
+                    "$F(x) = 1 - e^{-\\lambda x}$",
+                    "$F(x) = 1 - e^{\\lambda x}$",
+                    "$F(x) = e^{-\\lambda x} - 1$",
+                    "$F(x) = 1 + e^{-\\lambda x}$"
                 ],
-                correct: "własność Darboux funkcji ciągłej"
-            }, {
-                q: "Jeżeli funkcje \\( f \\) i \\( g \\) są ciągłe w punkcie \\( x_0 \\), to również funkcje \\( f + g \\), \\( f - g \\), \\( f \\cdot g \\) oraz \\( \\frac{f}{g} \\) o ile \\( g(x_0) \\neq 0 \\), są ciągłe w punkcie \\( x_0 \\). Powyższe zdanie jest:",
-                answers: ["fałszywe", "prawdziwe"],
-                correct: "prawdziwe"
+                "correct": "$F(x) = 1 - e^{-\\lambda x}$"
             },
             {
-                q: "Załóżmy, że funkcja \\( f : [a, b] \\rightarrow \\mathbb{R} \\) jest ciągła. Który z poniższych warunków gwarantuje, że równanie \\( f(x) = 0 \\) ma rozwiązanie w przedziale \\( [a, b] \\)?",
-                answers: [
-                    "\\( f(a)f(b) < 0 \\)",
-                    "\\( f(a) - f(b) < 0 \\)",
-                    "\\( f(a) + f(b) > 0 \\)",
-                    "\\( f(a) + f(b) < 0 \\)",
-                    "\\( f(a) = 0 \\)",
-                    "\\( f(a)f(b) > 0 \\)"
+                "q": "Rozkład dwumianowy $B(n,p)$ to rozkład zmiennej losowej opisującej:",
+                "answers": [
+                    "liczbę sukcesów w $n$ próbach Bernoulliego",
+                    "czas oczekiwania na pierwszy sukces w nieskończonej serii prób Bernoulliego",
+                    "czas oczekiwania na pierwszy sukces w $n$ próbach Bernoulliego"
                 ],
-                correct: "\\( f(a)f(b) < 0 \\)"
-            }, {
-                q: "Wszystkie funkcje elementarne są ciągłe w swoich dziedzinach naturalnych.",
-                answers: ["fałszywe", "prawdziwe"],
-                correct: "prawdziwe"
+                "correct": "liczbę sukcesów w $n$ próbach Bernoulliego"
             },
             {
-                q: "Dla funkcji \\( f(x) = \\lfloor x \\rfloor \\), \\( x \\in \\mathbb{R} \\), poprawne jest stwierdzenie:",
-                answers: [
-                    "nie ma punktów nieciągłości",
-                    "ma jeden punkt nieciągłości",
-                    "ma nieskończenie wiele punktów nieciągłości",
-                    "ma dwa punkty nieciągłości",
-                    "jest ciągła"
+                "q": "Jeżeli $P(A) = 0,3$, $P(B) = 0,5$ oraz zdarzenia $A$ i $B$ wykluczają się, to",
+                "answers": [
+                    "$P(A \\cup B) = 0,8$",
+                    "$P(A \\cap B) = 0,8$",
+                    "$P(A \\cup B) = 0,15$",
+                    "$P(A \\cap B) = 0,15$"
                 ],
-                correct: "ma nieskończenie wiele punktów nieciągłości"
-            },
-            {
-                q: "Funkcja \\( f : (a, b) \\rightarrow \\mathbb{R} \\) jest ciągła, jeżeli jest ciągła w każdym punkcie przedziału \\( (a, b) \\).",
-                answers: ["Prawda", "Fałsz"],
-                correct: "Prawda"
-            }, {
-                q: "Funkcjami elementarnymi nazywamy wszystkie funkcje, które można otrzymać z podstawowych funkcji elementarnych za pomocą skończonej liczby działań arytmetycznych oraz operacji składania i odwracania funkcji.",
-                answers: ["Prawda", "Fałsz"],
-                correct: "Prawda"
+                "correct": "$P(A \\cup B) = 0,8$"
             },
             {
-                q: "Funkcja \\( f : (a, b) \\rightarrow \\mathbb{R} \\) jest ograniczona, jeżeli jest:",
-                answers: [
-                    "ograniczona z góry i ograniczona z dołu",
-                    "ograniczona z dołu",
-                    "ograniczona z góry",
-                    "ograniczona z góry lub ograniczona z dołu"
+                "q": "Wskaż poprawny wzór:",
+                "answers": [
+                    "$P(A \\cup B) = P(A) + P(B)$",
+                    "$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$",
+                    "$P(A \\cap B) = P(A) + P(B) + P(A \\cup B)$",
+                    "$P(A \\cup B) = P(A) - P(B) + P(A \\cap B)$",
+                    "$P(A \\cup B) = P(A) + P(B) + P(A \\cap B)$"
                 ],
-                correct: "ograniczona z góry i ograniczona z dołu"
+                "correct": "$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$"
             },
             {
-                q: "Funkcja odwrotną do funkcji \\( f(x) = \\ln x \\) jest funkcja:",
-                answers: [
-                    "\\( f^{-1}(x) = \\ln x \\)",
-                    "\\( f^{-1}(x) = \\log x \\)",
-                    "\\( f^{-1}(x) = \\frac{1}{x} \\)",
-                    "\\( f^{-1}(x) = e^x \\)",
-                    "\\( f^{-1}(x) = 10^x \\)"
+                "q": "Pięciu studentów wpisuje się na listę obecności. Jakie jest prawdopodobieństwo zdarzenia, że utworzona lista jest w porządku alfabetycznym?",
+                "answers": [
+                    "$\\frac{1}{5}$",
+                    "$\\frac{1}{3125}$",
+                    "$\\frac{1}{32}$",
+                    "$\\frac{1}{120}$",
+                    "$\\frac{1}{25}$"
                 ],
-                correct: "\\( f^{-1}(x) = e^x \\)"
+                "correct": "$\\frac{1}{120}$"
             },
             {
-                q: "Funkcja odwrotna do funkcji \\( f(x) = \\frac{1}{x} \\), \\( x \\in \\mathbb{R} \\setminus \\{0\\} \\), to:",
-                answers: [
-                    "\\( f^{-1}(x) = x^0 \\), \\( x \\in \\mathbb{R} \\setminus \\{0\\} \\)",
-                    "\\( f^{-1}(x) = \\frac{x}{1} \\), \\( x \\in \\mathbb{R} \\setminus \\{0\\} \\)",
-                    "\\( f^{-1}(x) = x^2 \\), \\( x \\in \\mathbb{R} \\setminus \\{0\\} \\)",
-                    "\\( f^{-1}(x) = \\frac{1}{x} \\), \\( x \\in \\mathbb{R} \\setminus \\{0\\} \\)",
-                    "\\( f^{-1}(x) = x^1 \\), \\( x \\in \\mathbb{R} \\setminus \\{0\\} \\)"
+                "q": "Liczba wszystkich różnych k-wyrazowych wariacji z powtórzeniami zbioru n-elementowego jest równa",
+                "answers": [
+                    "$\\frac{n!}{(n-k)!}$",
+                    "$\\binom{n}{k}$",
+                    "$n^k$",
+                    "$k^n$",
+                    "$\\frac{n!}{k!}$",
+                    "$\\binom{k}{n}$"
                 ],
-                correct: "\\( f^{-1}(x) = \\frac{1}{x} \\), \\( x \\in \\mathbb{R} \\setminus \\{0\\} \\)"
+                "correct": "$n^k$"
             },
             {
-                q: "Dziedzina naturalna funkcji \\( f(x) = \\sqrt{x + 5} \\) to:",
-                answers: [
-                    "\\( (-\\infty, -5) \\)",
-                    "\\( (5, \\infty) \\)",
-                    "\\( (-5, \\infty) \\)",
-                    "\\( (-\\infty, 5] \\)",
-                    "\\( [-5, \\infty) \\)",
-                    "\\( (-\\infty, 5) \\)",
-                    "\\( [5, \\infty) \\)",
-                    "\\( (-\\infty, -5] \\)"
+                "q": "Jeżeli zdarzenia losowe $A$ i $B$ spełniają warunek $A \\subset B$, to",
+                "answers": [
+                    "$P(A) \\le P(B)$",
+                    "$P(A) \\ge P(B)$",
+                    "$P(A) > P(B)$",
+                    "$P(A) < P(B)$",
+                    "$P(A) = P(B)$"
                 ],
-                correct: "\\( [-5, \\infty) \\)"
+                "correct": "$P(A) \\le P(B)$"
             },
             {
-                q: "Funkcja odwrotna do funkcji \\( f(x) = 10^x \\) to:",
-                answers: [
-                    "\\( f^{-1}(x) = \\log x \\)",
-                    "\\( f^{-1}(x) = e^x \\)",
-                    "\\( f^{-1}(x) = 10^x \\)",
-                    "\\( f^{-1}(x) = \\ln x \\)"
+                "q": "Jeżeli $P(A) = p$, a zdarzenie $B$ jest zdarzeniem przeciwnym do $A$, to:",
+                "answers": [
+                    "$P(B) = \\frac{1}{p}$",
+                    "$P(B) = 1 + p$",
+                    "$P(B) = 1 - p$",
+                    "$P(B) = p - 1$"
                 ],
-                correct: "\\( f^{-1}(x) = \\log x \\)"
+                "correct": "$P(B) = 1 - p$"
             },
             {
-                q: "Do zbioru podstawowych funkcji elementarnych należy funkcja:",
-                answers: [
-                    "\\( f(x) = x \\)",
-                    "\\( f(x) = \\ln x \\)",
-                    "\\( f(x) = x^2 \\)",
-                    "\\( f(x) = 10^x \\)",
-                    "\\( f(x) = \\log x \\)"
+                "q": "Zdarzenie losowe oznaczane symbolem $\\emptyset$ to :",
+                "answers": [
+                    "zdarzenie pewne",
+                    "zdarzenie przeciwne",
+                    "zdarzenie zerowe",
+                    "zdarzenie niemożliwe",
+                    "zdarzenie nieprawdopodobne"
                 ],
-                correct: "\\( f(x) = x \\)"
+                "correct": "zdarzenie niemożliwe"
             },
             {
-                q: "Podstawą logarytmu naturalnego jest liczba:",
-                answers: [
-                    "0",
-                    "10",
-                    "\\( e \\)",
-                    "1"
+                "q": "W klasycznym modelu prawdopodobieństwa zakładamy, że",
+                "answers": [
+                    "przestrzeń $\\Omega$ jest skończona oraz wszystkie zdarzenia elementarne są jednakowo prawdopodobne",
+                    "przestrzeń $\\Omega$ jest skończona",
+                    "przestrzeń $\\Omega$ jest nieskończona oraz wszystkie zdarzenia elementarne są jednakowo prawdopodobne",
+                    "wszystkie zdarzenia elementarne są jednakowo prawdopodobne",
+                    "przestrzeń $\\Omega$ jest nieskończona"
                 ],
-                correct: "\\( e \\)"
+                "correct": "przestrzeń $\\Omega$ jest skończona oraz wszystkie zdarzenia elementarne są jednakowo prawdopodobne"
             },
             {
-                q: "Funkcja \\( f : D \\rightarrow \\mathbb{R} \\) jest malejąca, jeżeli spełnia warunek:",
-                answers: [
-                    "dla każdego \\( x_1, x_2 \\in D \\) takiego, że \\( x_1 < x_2 \\) zachodzi warunek \\( f(x_1) > f(x_2) \\)",
-                    "istnieją \\( x_1, x_2 \\in D \\) takie, że jeżeli \\( x_1 < x_2 \\) to zachodzi warunek \\( f(x_1) < f(x_2) \\)",
-                    "dla każdego \\( x_1, x_2 \\in D \\) takiego, że \\( x_1 < x_2 \\) zachodzi warunek \\( f(x_1) < f(x_2) \\)",
-                    "istnieją \\( x_1, x_2 \\in D \\) takie, że jeżeli \\( x_1 < x_2 \\) to zachodzi warunek \\( f(x_1) > f(x_2) \\)"
+                "q": "Liczba wszystkich różnych k-wyrazowych wariacji bez powtórzeń zbioru n-elementowego jest równa",
+                "answers": [
+                    "$\\frac{n!}{(n-k)!}$",
+                    "$k^n$",
+                    "$\\binom{k}{n}$",
+                    "$n^k$",
+                    "$\\binom{n}{k}$",
+                    "$\\frac{n!}{k!}$"
                 ],
-                correct: "dla każdego \\( x_1, x_2 \\in D \\) takiego, że \\( x_1 < x_2 \\) zachodzi warunek \\( f(x_1) > f(x_2) \\)"
+                "correct": "$\\frac{n!}{(n-k)!}$"
             },
             {
-                q: "Funkcja \\( f : X \\rightarrow Y \\) jest bijekcją, jeżeli jest:",
-                answers: [
-                    "na zbiór \\( Y \\)",
-                    "surjekcją lub iniekcją",
-                    "surjekcją i iniekcją",
-                    "różnowartościowa"
+                "q": "$\\binom{n}{k}$ to ilość wszystkich:",
+                "answers": [
+                    "permutacji zbioru n - elementowego",
+                    "k - wyrazowych wariacji z powtórzeniami zbioru n - elementowego",
+                    "k-elementowych kombinacji bez powtórzeń zbioru n - elementowego",
+                    "k - wyrazowych wariacji bez powtórzeń zbioru n - elementowego"
                 ],
-                correct: "surjekcją i iniekcją"
-            },
-            {
-                q: "Każda funkcja ciągła jest różniczkowalna.",
-                answers: ["Prawda", "Fałsz"],
-                correct: "Fałsz"
-            },
-            {
-                q: "Jeżeli pochodna funkcji elementarnej istnieje, to jest ona funkcją elementarną.",
-                answers: ["Prawda", "Fałsz"],
-                correct: "Prawda"
+                "correct": "k-elementowych kombinacji bez powtórzeń zbioru n - elementowego"
             },
             {
-                q: "Pochodna funkcji \\( f \\) w punkcie \\( x_0 \\) jest równa:",
-                answers: [
-                    "współczynnikowi kierunkowemu stycznej",
-                    "kątowi nachylenia stycznej do osi \\( OX \\)",
-                    "prędkości punktu \\( x_0 \\) na stycznej",
-                    "długości stycznej"
+                "q": "Załóżmy, że $B_1, B_2, \\dots, B_n$ to rozkład przestrzeni $\\Omega$ (inaczej: układ zupełny) oraz A jest zdarzeniem losowym. Wówczas $P(A) = P(A|B_1)P(B_1) + P(A|B_2)P(B_2) + \\dots + P(A|B_n)P(B_n)$. Powyższy wzór to :",
+                "answers": [
+                    "wzór na prawdopodobieństwo całkowite",
+                    "wzór na prawdopodobieństwo warunkowe",
+                    "wzór Bayes'a",
+                    "wzór Bernoullie'go",
+                    "wzór de Moivre'a-Laplace'a"
                 ],
-                correct: "współczynnikowi kierunkowemu stycznej"
+                "correct": "wzór na prawdopodobieństwo całkowite"
             },
             {
-                q: "Funkcja \\( f \\) jest różniczkowalna w punkcie \\( x_0 \\), jeżeli",
-                answers: [
-                    "istnieje granica funkcji \\( f \\) w punkcie \\( x_0 \\)",
-                    "funkcja \\( f \\) ma różnicę w punkcie \\( x_0 \\)",
-                    "istnieje pochodna funkcji \\( f \\) w punkcie \\( x_0 \\)",
-                    "wartość funkcji \\( f \\) w punkcie \\( x_0 \\) jest równa od 0"
+                "q": "Jeżeli $p$ oznacza prawdopodobieństwo sukcesu w pojedynczej próbie Bernoulliego, a $n$ oznacza ilość wykonanych prób, oraz $(n+1)p$ jest liczbą naturalną, to najbardziej prawdopodobna liczba $N$ uzyskanych sukcesów wynosi:",
+                "answers": [
+                    "$N = (n+1)p - 1$",
+                    "$N = (n+1)p$",
+                    "$N = (n-1)p$",
+                    "$N = np$",
+                    "$N = (n+1)p$ lub $N = (n+1)p - 1$"
                 ],
-                correct: "istnieje pochodna funkcji \\( f \\) w punkcie \\( x_0 \\)"
-            }, {
-                q: "Jeżeli funkcje \\( f \\) i \\( g \\) są różniczkowalne w przedziale \\((a, b)\\), to funkcja \\( h(x) = f(x)g(x) \\) ma pochodną daną wzorem:",
-                answers: [
-                    "\\( h'(x) = f'(x)g(x) + f(x)g'(x) \\)",
-                    "\\( h'(x) = f'(x)g'(x) \\)",
-                    "\\( h'(x) = f(x)g(x) - f(x)g'(x) \\)",
-                    "\\( h'(x) = \\frac{f'(x)}{g'(x)} \\)"
-                ],
-                correct: "\\( h'(x) = f'(x)g(x) + f(x)g'(x) \\)"
+                "correct": "$N = (n+1)p$ lub $N = (n+1)p - 1$"
             },
             {
-                q: "Pochodna funkcji \\( f \\) w punkcie \\( x_0 \\) to:",
-                answers: [
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) + f(x_0)}{x + x_0} \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x)}{x} \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} f(x) - f(x_0) \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) - f(x_0)}{x - x_0} \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} x f(x) \\)"
+                "q": "Jeżeli zdarzenia $A$ i $B$ są niezależne oraz $P(B) > 0$, to",
+                "answers": [
+                    "$P(B|A) = P(A)$",
+                    "$P(A|B) = P(A)$",
+                    "$P(A|B) = \\frac{P(A)}{P(B)}$",
+                    "$P(A|B) = P(B)$"
                 ],
-                correct: "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) - f(x_0)}{x - x_0} \\)"
+                "correct": "$P(A|B) = P(A)$"
             },
             {
-                q: "Pochodna funkcji \\( f(x) = e^x \\) to:",
-                answers: [
-                    "\\( f'(x) = e^x \\)",
-                    "\\( f'(x) = x e \\)",
-                    "\\( f'(x) = \\log x \\)",
-                    "\\( f'(x) = x e^{x-1} \\)",
-                    "\\( f'(x) = \\ln x \\)"
+                "q": "Rzucamy kostką do gry dziesięć razy. Prawdopodobieństwo wyrzucenia dziesięciu szóstek wynosi:",
+                "answers": [
+                    "$\\frac{5^{10}}{6^{10}}$",
+                    "$\\frac{1}{6^{10}}$",
+                    "$\\frac{1}{10^6}$",
+                    "$\\frac{5^6}{10^6}$"
                 ],
-                correct: "\\( f'(x) = e^x \\)"
+                "correct": "$\\frac{1}{6^{10}}$"
             },
             {
-                q: "Jeżeli funkcje \\( f \\) i \\( g \\) są różniczkowalne w przedziale \\((a, b)\\), to funkcja \\( h(x) = f(x)g(x) \\) ma pochodną daną wzorem:",
-                answers: [
-                    "\\( h'(x) = f'(x)g(x) + f(x)g'(x) \\)",
-                    "\\( h'(x) = f'(x)g'(x) \\)",
-                    "\\( h'(x) = f(x)g(x) - f(x)g'(x) \\)",
-                    "\\( h'(x) = \\frac{f'(x)}{g'(x)} \\)"
+                "q": "Prawdopodobieństwo warunkowe zdarzenia $A$ pod warunkiem, że zaszło zdarzenie $B$ definiujemy wzorem:",
+                "answers": [
+                    "$P(A|B) = \\frac{P(A \\cup B)}{P(B)}$",
+                    "$P(A|B) = P(A) P(B)$",
+                    "$P(A|B) = P(A) + P(B)$",
+                    "$P(A|B) = \\frac{P(A \\cap B)}{P(B)}$"
                 ],
-                correct: "\\( h'(x) = f'(x)g(x) + f(x)g'(x) \\)"
+                "correct": "$P(A|B) = \\frac{P(A \\cap B)}{P(B)}$"
             },
             {
-                q: "Pochodna funkcji \\( f \\) w punkcie \\( x_0 \\) to:",
-                answers: [
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) + f(x_0)}{x + x_0} \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x)}{x} \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} f(x) - f(x_0) \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) - f(x_0)}{x - x_0} \\)",
-                    "\\( f'(x_0) = \\lim_{x \\to x_0} x f(x) \\)"
+                "q": "Jeżeli $P(A) = 0,3$, $P(B) = 0,5$ oraz zdarzenia A i B są niezależne, to:",
+                "answers": [
+                    "$P(A \\cap B) = 0,8$",
+                    "$P(A \\cap B) = 0,15$",
+                    "$P(A \\cup B) = 0,15$",
+                    "$P(A \\cup B) = 0,8$"
                 ],
-                correct: "\\( f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) - f(x_0)}{x - x_0} \\)"
+                "correct": "$P(A \\cap B) = 0,15$"
             },
             {
-                q: "Pochodna funkcji \\( f(x) = e^x \\) to:",
-                answers: [
-                    "\\( f'(x) = e^x \\)",
-                    "\\( f'(x) = x e \\)",
-                    "\\( f'(x) = \\log x \\)",
-                    "\\( f'(x) = x e^{x-1} \\)",
-                    "\\( f'(x) = \\ln x \\)"
-                ],
-                correct: "\\( f'(x) = e^x \\)"
-            }, {
-                q: "Granica ciągu \\( a_n = \\left(1 + \\frac{1}{n}\\right)^n \\), \\( n \\in \\mathbb{N} \\), wynosi:",
-                answers: [
-                    "\\( \\infty \\)",
-                    "\\( e \\)",
-                    "1",
-                    "0"
+                "q": "Zdarzenia $A$ i $B$ są niezależne wtedy i tylko wtedy, gdy:",
+                "answers": [
+                    "$P(A \\cup B) = P(A) P(B)$",
+                    "$P(A \\cap B) = P(A) P(B)$",
+                    "$P(A \\cup B) = P(A) + P(B)$",
+                    "$P(A \\cap B) = P(A) + P(B)$"
                 ],
-                correct: "\\( e \\)"
+                "correct": "$P(A \\cap B) = P(A) P(B)$"
             },
             {
-                q: "Ciąg \\((a_n)_{n \\in \\mathbb{N}}\\) jest rosnący, jeżeli dla każdego \\(n \\in \\mathbb{N}\\) spełnia warunek:",
-                answers: [
-                    "\\(a_{n+1} > a_n\\)",
-                    "\\(a_{n+1} < a_n\\)",
-                    "\\(a_{n+1} = a_n\\)"
+                "q": "Zdarzenia $A, B, C$ są niezależne wtedy i tylko wtedy, gdy:",
+                "answers": [
+                    "zachodzi warunek $P(A \\cup B \\cup C) = P(A) P(B) P(C)$",
+                    "zdarzenia te są parami niezależne",
+                    "zdarzenia te są parami niezależne oraz zachodzi warunek $P(A \\cap B \\cap C) = P(A) P(B) P(C)$",
+                    "zachodzi warunek $P(A \\cap B \\cap C) = P(A) P(B) P(C)$"
                 ],
-                correct: "\\(a_{n+1} > a_n\\)"
+                "correct": "zdarzenia te są parami niezależne oraz zachodzi warunek $P(A \\cap B \\cap C) = P(A) P(B) P(C)$"
             },
             {
-                q: "Jeżeli \\( a_n = n^3 \\), \\( n \\in \\mathbb{N} \\), to \\(\\lim_{n \\to \\infty} a_n = \\)",
-                answers: [
-                    "0",
-                    "\\(\\pi\\)",
-                    "\\(e^{\\pi i}\\)",
-                    "\\(+\\infty\\)",
-                    "1",
-                    "\\(-\\infty\\)",
-                    "\\(e\\)"
+                "q": "Próba Bernoulliego to:",
+                "answers": [
+                    "test statystyczny opracowany przez Jakoba Bernoulliego",
+                    "eksperyment losowy, który kończy się jednym z dwóch wyników",
+                    "eksperyment losowy, który kończy się jednym z trzech wyników",
+                    "eksperyment polegający na rzucie monetą lub kostką do gry"
                 ],
-                correct: "\\(+\\infty\\)"
+                "correct": "eksperyment losowy, który kończy się jednym z dwóch wyników"
             },
             {
-                q: "Dobrym przybliżeniem liczby \\( e \\) jest:",
-                answers: [
-                    "2,71",
-                    "1,72",
-                    "0,33",
-                    "3,14"
+                "q": "Prawdopodobieństwo uzyskania $k$ sukcesów w $n$ próbach Bernoulliego wyraża się wzorem",
+                "answers": [
+                    "$p_{k,n} = \\binom{n}{k}p^n q^{k-n}$",
+                    "$p_{k,n} = \\binom{n}{k}p^k q^{n-k}$",
+                    "$p_{k,n} = \\binom{n}{k}q^k p^{n-k}$",
+                    "$p_{k,n} = \\binom{n}{k}p^k q^{n-k}$"
                 ],
-                correct: "2,71"
+                "correct": "$p_{k,n} = \\binom{n}{k}p^k q^{n-k}$"
             },
             {
-                q: "Ciąg \\((a_n)_{n \\in \\mathbb{N}}\\) jest ograniczony z dołu, jeżeli",
-                answers: [
-                    "dla każdego \\( M \\in \\mathbb{R} \\) istnieje \\( n \\in \\mathbb{N} \\) takie, że zachodzi warunek \\( a_n \\geq M \\)",
-                    "istnieje \\( M \\in \\mathbb{R} \\) takie, że dla każdego \\( n \\in \\mathbb{N} \\) zachodzi warunek \\( a_n \\geq M \\)",
-                    "istnieje \\( M \\in \\mathbb{R} \\) takie, że dla każdego \\( n \\in \\mathbb{N} \\) zachodzi warunek \\( a_n \\leq M \\)",
-                    "dla każdego \\( M \\in \\mathbb{R} \\) istnieje \\( n \\in \\mathbb{N} \\) takie, że zachodzi warunek \\( a_n \\leq M \\)"
+                "q": "Załóżmy, że $B_1, B_2, \\dots, B_n$ to rozkład przestrzeni $\\Omega$ (inaczej: układ zupełny) oraz A jest zdarzeniem losowym i $P(A) > 0$. Wówczas dla dowolnego $k \\in \\{1, 2, \\dots, n\\}$ zachodzi wzór $P(B_k|A) = \\frac{P(A|B_k) P(B_k)}{P(A)}$. Powyższy wzór to :",
+                "answers": [
+                    "wzór Bernoulliego",
+                    "wzór na prawdopodobieństwo warunkowe",
+                    "wzór na prawdopodobieństwo całkowite",
+                    "wzór Bayes'a"
                 ],
-                correct: "istnieje \\( M \\in \\mathbb{R} \\) takie, że dla każdego \\( n \\in \\mathbb{N} \\) zachodzi warunek \\( a_n \\geq M \\)"
+                "correct": "wzór Bayes'a"
             }
         ];
 
